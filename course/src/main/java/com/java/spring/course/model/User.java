@@ -4,15 +4,16 @@ import jakarta.persistence.GenerationType;
 
 import java.io.Serializable;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 //@Date - Lombok annotation - generates getters and setters, equals and hashcode, toString, etc.
 //@AllArgsConstructor
 //@NoArgsConstructor
-@Entity(name = "tb_user")
+@Entity
+@Table(name = "tb_user")
 public class User implements Serializable{
 
     private static final long serialVersionUID = 1L;
@@ -21,16 +22,12 @@ public class User implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
     private String name;
     
-    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, unique = true)
     private String phone;
 
-    @Column(nullable = false, unique = true)
     private String password;
         
     public User() {
