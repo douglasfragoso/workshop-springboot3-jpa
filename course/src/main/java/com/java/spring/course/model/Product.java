@@ -5,11 +5,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+// import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "tb_product")
@@ -28,14 +32,16 @@ public class Product implements Serializable{
     private Double price;
 
     private String imgUrl;
-
-    @Transient //impede o jpa de interpretar esse atributo
-    private Set<Category> categories = new HashSet<>(); //para não haver o mesmo produto na mesma categoria - também não adiciona coleções no construtor
+   
+    @ManyToMany(fetch = FetchType.EAGER) //relacionamento muitos para muitos - carregamento antecipado
+	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id")) //cria a tabela de relacionamento entre as duas tabelas
+	private Set<Category> categories = new HashSet<>();
 
     public Product() {
     }
 
     public Product(Long id, String name, String description, Double price, String imgUrl) {
+        super();
         this.id = id;
         this.name = name;
         this.description = description;
