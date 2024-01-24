@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.Instant;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.java.spring.course.enums.OrderStatus;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,16 +32,16 @@ public class Order implements Serializable {
     @JoinColumn(name = "client_id") // This annotation is used to specify the foreign key column
     private User client;
 
-    // private OrderStatus status;
+    private Integer status;
 
     public Order() {
     }
 
-    public Order(Long id, Instant moment, User client) {
+    public Order(Long id, Instant moment, OrderStatus status, User client) {
         this.id = id;
         this.moment = moment;
+        setStatus(status);
         this.client = client;
-        // this.status = status;
     }
 
     public Long getId() {
@@ -65,6 +66,16 @@ public class Order implements Serializable {
 
     public void setClient(User client) {
         this.client = client;
+    }
+
+    public OrderStatus getStatus() {
+        return OrderStatus.valueOf(status);// This method is used to convert an integer to an OrderStatus
+    }
+
+    public void setStatus(OrderStatus status) {
+        if(status != null){
+            this.status = status.getCode();// This attribute is used to store the code of the order status
+        }
     }
 
     @Override
