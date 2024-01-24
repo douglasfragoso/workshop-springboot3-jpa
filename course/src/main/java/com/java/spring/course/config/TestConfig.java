@@ -10,16 +10,17 @@ import org.springframework.context.annotation.Profile;
 import com.java.spring.course.enums.OrderStatus;
 import com.java.spring.course.model.Category;
 import com.java.spring.course.model.Order;
+import com.java.spring.course.model.Product;
 import com.java.spring.course.model.User;
 import com.java.spring.course.repository.CategoryRepository;
 import com.java.spring.course.repository.OrderRepository;
+import com.java.spring.course.repository.ProductRepository;
 import com.java.spring.course.repository.UserRepository;
 
 @Configuration // Indica que é uma classe de configuração
 @Profile("test") // Indica que é uma classe de configuração específica para o perfil de teste
-public class TestConfig implements CommandLineRunner { // CommandLineRunner: Executa um método quando a aplicação é
-                                                       // iniciada
-
+public class TestConfig implements CommandLineRunner { // CommandLineRunner: Executa um método quando a aplicação é iniciada
+                                                       
     @Autowired // Injeção de dependência automática
     private UserRepository userRepository;
 
@@ -28,6 +29,9 @@ public class TestConfig implements CommandLineRunner { // CommandLineRunner: Exe
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -43,6 +47,12 @@ public class TestConfig implements CommandLineRunner { // CommandLineRunner: Exe
         Category cat2 = new Category(null, "Books");
         Category cat3 = new Category(null, "Computers");
 
+        Product p1 = new Product(null, "The Lord of the Rings", "Lorem ipsum dolor sit amet, consectetur.", 90.5, "");
+        Product p2 = new Product(null, "Smart TV", "Nulla eu imperdiet purus. Maecenas ante.", 2190.0, "");
+        Product p3 = new Product(null, "Macbook Pro", "Nam eleifend maximus tortor, at mollis.", 1250.0, "");
+        Product p4 = new Product(null, "PC Gamer", "Donec aliquet odio ac rhoncus cursus.", 1200.0, "");
+        Product p5 = new Product(null, "Rails for Dummies", "Cras fringilla convallis sem vel faucibus.", 100.99, "");
+
         userRepository.save(u1);
         userRepository.save(u2);
 
@@ -53,6 +63,12 @@ public class TestConfig implements CommandLineRunner { // CommandLineRunner: Exe
         categoryRepository.save(cat1);
         categoryRepository.save(cat2);
         categoryRepository.save(cat3);
+
+        productRepository.save(p1);
+        productRepository.save(p2);
+        productRepository.save(p3);
+        productRepository.save(p4);
+        productRepository.save(p5);
     }
 
 }
