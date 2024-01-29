@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 import com.java.spring.course.enums.OrderStatus;
 import com.java.spring.course.model.Category;
 import com.java.spring.course.model.Order;
+import com.java.spring.course.model.OrderItem;
 import com.java.spring.course.model.Product;
 import com.java.spring.course.model.User;
 import com.java.spring.course.repository.CategoryRepository;
 import com.java.spring.course.repository.OrderRepository;
+import com.java.spring.course.repository.OrderItemRepository;
 import com.java.spring.course.repository.ProductRepository;
 import com.java.spring.course.repository.UserRepository;
 
@@ -32,6 +34,9 @@ public class TestConfig implements CommandLineRunner { // CommandLineRunner: Exe
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+	private OrderItemRepository orderItemRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -83,6 +88,15 @@ public class TestConfig implements CommandLineRunner { // CommandLineRunner: Exe
         orderRepository.save(o2);
         orderRepository.save(o3);
 
+        OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+		OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+
+        orderItemRepository.save(oi1);
+        orderItemRepository.save(oi2);
+        orderItemRepository.save(oi3);
+        orderItemRepository.save(oi4);
         
     }
 

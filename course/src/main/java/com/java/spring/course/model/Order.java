@@ -3,8 +3,12 @@ package com.java.spring.course.model;
 import java.io.Serializable;
 import java.time.Instant;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.java.spring.course.enums.OrderStatus;
+import com.java.spring.course.model.OrderItem;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,6 +37,10 @@ public class Order implements Serializable {
     private User client;
 
     private Integer status;
+
+    @OneToMany(mappedBy = "id.order")
+	private Set<OrderItem> items = new HashSet<>();
+
 
     public Order() {
     }
@@ -77,6 +85,10 @@ public class Order implements Serializable {
             this.status = status.getCode();// This attribute is used to store the code of the order status
         }
     }
+
+    public Set<OrderItem> getItems() {
+		return items;
+	}
 
     @Override
     public int hashCode() {
