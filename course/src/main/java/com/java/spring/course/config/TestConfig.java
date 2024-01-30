@@ -11,6 +11,7 @@ import com.java.spring.course.enums.OrderStatus;
 import com.java.spring.course.model.Category;
 import com.java.spring.course.model.Order;
 import com.java.spring.course.model.OrderItem;
+import com.java.spring.course.model.Payment;
 import com.java.spring.course.model.Product;
 import com.java.spring.course.model.User;
 import com.java.spring.course.repository.CategoryRepository;
@@ -97,7 +98,10 @@ public class TestConfig implements CommandLineRunner { // CommandLineRunner: Exe
         orderItemRepository.save(oi2);
         orderItemRepository.save(oi3);
         orderItemRepository.save(oi4);
-        
+
+        Payment pay1 = new Payment(null, Instant.parse("2019-07-22T16:21:22Z"), o3);
+        o3.setPayment(pay1);
+        orderRepository.save(o3);
     }
 
 }
