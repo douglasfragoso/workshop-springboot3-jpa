@@ -1,7 +1,6 @@
-import java.io.Serializable;
+package com.java.spring.course.model;
 
-import com.java.spring.course.model.Product;
-import com.java.spring.course.model.Order;
+import java.io.Serializable;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;

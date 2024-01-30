@@ -1,6 +1,9 @@
+package com.java.spring.course.model;
+
 import java.io.Serializable;
 
-import com.java.spring.course.model.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
