@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.java.spring.course.model.User;
 import com.java.spring.course.repository.UserRepository;
+import com.java.spring.course.services.exceptions.ResourceNotFoundException;
 
 @Service // This annotation is used to indicate that a class is a "Service"
 public class UserService {
@@ -22,7 +23,7 @@ public class UserService {
 
     public User findById(@NonNull Long id) { // @NonNull is a Lombok annotation that generates a null check
         Optional<User> obj = repository.findById(id); // Optional is a container object that may or may not contain a non-null value
-        return obj.get();
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id)); // orElseThrow is a method that returns the value if present, otherwise throws an exception
     }
 
     public User insert(User obj) {
