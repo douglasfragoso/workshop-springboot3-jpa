@@ -3,13 +3,19 @@ package com.java.spring.course.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import com.java.spring.course.model.User;
 import com.java.spring.course.repository.UserRepository;
+import com.java.spring.course.services.exceptions.DatabaseException;
 import com.java.spring.course.services.exceptions.ResourceNotFoundException;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service // This annotation is used to indicate that a class is a "Service"
 public class UserService {
@@ -26,21 +32,33 @@ public class UserService {
         return obj.orElseThrow(() -> new ResourceNotFoundException(id)); // orElseThrow is a method that returns the value if present, otherwise throws an exception
     }
 
-    public User insert(User obj) {
-		return repository.save(obj);
-	}
+        @NonNull
+        public User insert(User obj) {
+            return repository.save(obj);
+        }
 
-    public void delete(Long id) {
-		repository.deleteById(id);
-	}
+        public void delete(Long id) {
+            try {
+                repository.deleteById(id);
+            } catch (EmptyResultDataAccessException e) {
+                throw new ResourceNotFoundException(id);
+            } catch (DataIntegrityViolationException e) {
+                throw new DatabaseException(e.getMessage());
+            }
+        }
 
     public User update(Long id, User obj) {
-		User entity = repository.getReferenceById(id);
-		updateData(entity, obj);
-		return repository.save(entity);
+		try {
+			User entity = repository.getReferenceById(id);
+			updateData(entity, obj);
+			return repository.save(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}	
 	}
 
 	private void updateData(User entity, User obj) {
+        Hibernate.initialize(entity.getOrders());
 		entity.setName(obj.getName());
 		entity.setEmail(obj.getEmail());
 		entity.setPhone(obj.getPhone());
