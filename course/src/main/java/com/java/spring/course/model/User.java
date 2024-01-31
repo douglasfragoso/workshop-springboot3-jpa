@@ -9,6 +9,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -36,7 +37,7 @@ public class User implements Serializable{
     private String password;
 
     @JsonIgnore // This annotation is used to prevent the loop between User and Order - 
-    @OneToMany(mappedBy = "client") // This annotation is used to create a one-to-many relationship between two entities
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER) // This annotation is used to create a one-to-many relationship between two entities
     private List<Order> orders = new ArrayList<>();//List is an interface, so we can't instantiate it. We need to use an implementation of List, like ArrayList
         
     public User() {

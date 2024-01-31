@@ -35,7 +35,7 @@ public class Order implements Serializable {
     private Instant moment;
 
     // @JsonIgnore - se colocar o jsonignore aqui, o json não vai mostrar o cliente e o cliente vai mostrar os pedidos
-    @ManyToOne // This annotation is used to create a many-to-one relationship between two entities
+    @ManyToOne// This annotation is used to create a many-to-one relationship between two entities
     @JoinColumn(name = "client_id") // This annotation is used to specify the foreign key column
     private User client;
 
